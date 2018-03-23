@@ -1,7 +1,15 @@
-import java.io.*;
-import java.security.*;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.File;
+import java.io.ObjectInputStream;
+import java.io.PrintWriter;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.util.Base64;
-import javax.crypto.*;
 
 class Encrypt {
 
@@ -12,19 +20,19 @@ class Encrypt {
         // encodes using Base64 encoding, 
         // and saves the encrypted message.
         // Written by Luc Longpre for Computer Security, Spring 2018
-        
+
         ObjectInputStream objectInput;
         File file;
         PublicKey pubKey;
         Cipher cipher;
         String messageToEncrypt = "Computer Security Spring 2018";
-        System.out.println("The plaintext is: " + messageToEncrypt);       
+        System.out.println("The plaintext is: " + messageToEncrypt);
         byte[] encryptedByteArray;
         String encryptedString;
 
         // Read public key from file
         pubKey = PemUtils.readPublicKey("publicKey.pem");
-        
+
         encryptedByteArray = encrypt(pubKey, messageToEncrypt.getBytes());
         encryptedString = Base64.getEncoder().encodeToString(encryptedByteArray);
         System.out.println("The encrypted string is: " + encryptedString);
@@ -36,10 +44,11 @@ class Encrypt {
             System.out.println("Could not create encryptedMessage file");
         }
     }
-        public static byte[] encrypt(PublicKey pubKey, byte[] bytes) {
-            // encrypts a byte array using a public key
-            // and returns the encryption as a byte array
-        
+
+    public static byte[] encrypt(PublicKey pubKey, byte[] bytes) {
+        // encrypts a byte array using a public key
+        // and returns the encryption as a byte array
+
         Cipher cipher;
         byte[] encryptedByteArray;
 
@@ -55,6 +64,6 @@ class Encrypt {
         } catch (IllegalBlockSizeException | BadPaddingException e) {
             System.out.println("Encryption error");
             return null;
-        }    
+        }
     }
 }

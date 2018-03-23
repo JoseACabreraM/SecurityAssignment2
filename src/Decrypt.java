@@ -46,6 +46,7 @@ class Decrypt {
             cipher.init(Cipher.DECRYPT_MODE, privKey);
             return cipher.doFinal(encryptedByteArray);      
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+            e.printStackTrace();
             System.out.println("error while decrypting the message");
             return null;
         }
